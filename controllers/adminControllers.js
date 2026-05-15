@@ -1,11 +1,11 @@
-import User from "../models/User.model.js";
+const User = require("../models/User");
 
 /**
  * @desc    Get all registered users
- * @route   GET /api/admin/users
+ * @route   GET /admin/users
  * @access  Admin only
  */
-export const getAllUsers = async (req, res) => {
+exports.getAllUsers = async (req, res) => {
   try {
     const users = await User.find({}, "-password").sort({ createdAt: -1 });
     res.status(200).json(users);
@@ -16,10 +16,10 @@ export const getAllUsers = async (req, res) => {
 
 /**
  * @desc    Get single user by ID
- * @route   GET /api/admin/users/:id
+ * @route   GET /admin/users/:id
  * @access  Admin only
  */
-export const getUserById = async (req, res) => {
+exports.getUserById = async (req, res) => {
   try {
     const user = await User.findById(req.params.id, "-password");
     if (!user) {
@@ -33,10 +33,10 @@ export const getUserById = async (req, res) => {
 
 /**
  * @desc    Block or unblock user
- * @route   PATCH /api/admin/users/:id/status
+ * @route   PATCH /admin/users/:id/status
  * @access  Admin only
  */
-export const toggleUserStatus = async (req, res) => {
+exports.toggleUserStatus = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
     if (!user) {
@@ -48,6 +48,7 @@ export const toggleUserStatus = async (req, res) => {
 
     res.status(200).json({
       message: `User ${user.isActive ? "unblocked" : "blocked"} successfully`,
+      isActive: user.isActive
     });
   } catch (error) {
     res.status(500).json({ message: "Failed to update status" });
@@ -56,10 +57,10 @@ export const toggleUserStatus = async (req, res) => {
 
 /**
  * @desc    Delete user permanently
- * @route   DELETE /api/admin/users/:id
+ * @route   DELETE /admin/users/:id
  * @access  Admin only
  */
-export const deleteUser = async (req, res) => {
+exports.deleteUser = async (req, res) => {
   try {
     const user = await User.findByIdAndDelete(req.params.id);
     if (!user) {
@@ -74,10 +75,10 @@ export const deleteUser = async (req, res) => {
 
 /**
  * @desc    Admin dashboard statistics
- * @route   GET /api/admin/stats
+ * @route   GET /admin/stats
  * @access  Admin only
  */
-export const getAdminStats = async (req, res) => {
+exports.getAdminStats = async (req, res) => {
   try {
     const totalUsers = await User.countDocuments();
     const activeUsers = await User.countDocuments({ isActive: true });

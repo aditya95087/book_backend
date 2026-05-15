@@ -1,20 +1,3 @@
-// const mongoose = require("mongoose");
-
-// const userSchema = new mongoose.Schema({
-//   name: String,
-//   email: String,
-//   password: String
-// });
-
-// module.exports = mongoose.model("User", userSchema);
-
-
-
-
-
-
-
-
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema(
@@ -38,27 +21,29 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
 
-    // ROLE-BASED ACCESS
     role: {
       type: String,
       enum: ["admin", "user"],
       default: "user",
     },
 
-    //  BLOCK / UNBLOCK USER
+    isRegistered: {
+      type: Boolean,
+      default: false,
+    },
+
     isActive: {
       type: Boolean,
       default: true,
     },
 
-    //  TRACK LOGIN
     lastLogin: {
       type: Date,
       default: null,
     },
   },
   {
-    timestamps: true, // createdAt & updatedAt
+    timestamps: true,
   }
 );
 
