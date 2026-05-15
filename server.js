@@ -14,12 +14,25 @@ const User = require("./models/User");
 const app = express();
 
 /* ================= MIDDLEWARE ================= */
+// app.use(
+//   cors({
+//     origin: process.env.FRONTEND_URL || "http://localhost:5173",
+//     credentials: true,
+//   })
+// );
+// app.use(express.json());
+
+
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || "http://localhost:5173",
+    origin: [
+      "http://localhost:5173",
+      "https://book-front-rho.vercel.app"
+    ],
     credentials: true,
   })
 );
+
 app.use(express.json());
 
 /* ================= ROOT ROUTE ================= */
